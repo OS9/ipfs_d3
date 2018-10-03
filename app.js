@@ -2,7 +2,7 @@
 var API_REFS_FORMAT, DEBUG, DEMO_HASH, app, d, debug, getDecendants, render,
   slice = [].slice;
 
-DEMO_HASH = 'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr';
+DEMO_HASH = 'QmX5smVTZfF8p1VC8Y3VtjGqjvDVPWvyBk24JgvnMwHtjC';
 
 DEBUG = true;
 
@@ -45,6 +45,7 @@ render = function(hash) {
       }
     }
     children = getDecendants(hash, tree);
+    console.log(children);
     this.root = {
       children: children
     };

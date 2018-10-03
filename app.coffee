@@ -1,4 +1,6 @@
-DEMO_HASH = 'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr'  # archive of ipfs websites
+# DEMO_HASH = 'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr'  # archive of ipfs websites
+DEMO_HASH = 'QmX5smVTZfF8p1VC8Y3VtjGqjvDVPWvyBk24JgvnMwHtjC'  # archive of ipfs websites
+
 DEBUG = true
 API_REFS_FORMAT = encodeURIComponent '<src> <dst> <linkname>'
 
