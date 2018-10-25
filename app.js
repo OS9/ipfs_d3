@@ -20,9 +20,31 @@ app = function() {
 };
 
 render = function(hash) {
-  var apiPath;
-  apiPath = "/api/v0/refs?arg=" + hash + "&recursive&format=" + API_REFS_FORMAT;
-  return d3.xhr(apiPath, function(error, xhr) {
+  var bitswapStat, blockStat, cat, findpeer, get, ls, objdata, objlinks, objstat, refs, swmaddrs;
+  refs = "/api/v0/refs?arg=" + hash + "&recursive&format=" + API_REFS_FORMAT;
+  bitswapStat = "/api/v0/bitswap/stat";
+  blockStat = "/api/v0/block/stat?arg=" + hash;
+  get = "/api/v0/block/get?arg=" + hash;
+  cat = "/api/v0/cat?arg=" + hash;
+  ls = "/api/v0/file/ls?arg=" + hash;
+  findpeer = "/api/v0/dht/findpeer?arg=" + hash;
+  objdata = "/api/v0/object/data?arg=" + hash;
+  objlinks = "/api/v0/object/links?arg=" + hash;
+  objstat = "/api/v0/object/stat?arg=" + hash;
+  swmaddrs = "/api/v0/swarm/addrs";
+  d3.xhr(objstat, function(error, xhr) {
+    var objStat;
+    objStat = xhr.responseText;
+    console.log(objStat);
+    return console.log("------------------------");
+  });
+  d3.xhr(swmaddrs, function(error, xhr) {
+    var swmAddrs;
+    swmAddrs = xhr.responseText;
+    console.log(swmAddrs);
+    return console.log("------------------------");
+  });
+  return d3.xhr(refs, function(error, xhr) {
     var children, data, datum, dst, i, len, line, lines, linkname, ref1, src, tree;
     data = xhr.responseText;
     tree = {};
@@ -45,7 +67,6 @@ render = function(hash) {
       }
     }
     children = getDecendants(hash, tree);
-    console.log(children);
     this.root = {
       children: children
     };
