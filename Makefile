@@ -1,5 +1,6 @@
 
-url="http://localhost:8080/ipfs/"
+# url="http://localhost:8080/ipfs/"
+url="http://localhost:3000/ipfs/"
 
 publish: build
 	@export hash=$(shell ipfs add -r -q . | tail -n1) && \
@@ -7,8 +8,5 @@ publish: build
 		echo $$hash >latest-version && \
 		xdg-open $(url)$$hash/viz
 
-build: app.coffee
-	coffee --bare --compile $^
-
-watch:
-	coffee --bare --watch --compile app.coffee
+build: server.js
+	node server.js
