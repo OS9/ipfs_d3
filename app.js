@@ -7,20 +7,16 @@ DEBUG = true;
 
 API_REFS_FORMAT = encodeURIComponent('<src> <dst> <linkname>');
 
-var url = require("url");
-
-exports.app = function(req, res) {
+app = function() {
   var hash;
-  hash = req.url;
-  return console.log(hash);
-  // hash = global.location.hash.slice(1);
-  // console.log(hash);
-  // if (hash.length > 0) {
-  //   return render(hash);
-  // } else {
-  //   global.location.hash = '#' + DEMO_HASH;
-  //   return global.location.reload();
-  // }
+  hash = window.location.hash.slice(1);
+  console.log(hash);
+  if (hash.length > 0) {
+    return render(hash);
+  } else {
+    window.location.hash = '#' + DEMO_HASH;
+    return window.location.reload();
+  }
 };
 
 render = function(hash) {
