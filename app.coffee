@@ -30,7 +30,7 @@ render = (hash) ->
   objstat = "/api/v0/object/stat?arg=#{hash}"
   dagget = "/api/v0/dag/get?arg=#{hash}"
   test = "/api/v0/key"
-  # console.log get
+  console.log refs
   d3.xhr test, (error, xhr) ->
     console.log "test"
     test = xhr.responseText

@@ -2,13 +2,16 @@ var express = require("express");
 var util = require("util");
 var fs = require("fs");
 var d3 = require("d3");
+global.fetch = require("node-fetch");
+// var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var app = express();
+// var xhr = new XMLHttpRequest();
 
 function dump(v) {
     return console.log(util.inspect(v));
 };
 
-var f = require("./app.js");
+// var f = require("./app.js");
 var peer = require("./peer.js");
 var stat = require("./bswstat.js");
 var latest_version = fs.readFileSync("latest-version", "utf-8");
@@ -28,21 +31,27 @@ app.get("/", (req, res) => {
     // stat.app();
     // f.app(req, res);
     // dump(global);
-    render();
-    res.send('<a href="/test">test</a>');
+    render(WATCH_HASH);
+    // res.send('<a href="/test">test</a>');
 });
+
+// app.use(express.static("."));
 
 app.get("/test", (req, res) => {
     // res.redirect(path);
-    res.redirect("http://google.com");
+    // res.redirect("http://google.com");
 });
 
-
-render = () => {
-    var ipfs = stat.app();
-    return d3.xhr(ipfs, (err, data) => {
-        data = xhr.responseText;
-        
-        console.log(data);
+render = (hash) => {
+    var refs, ipfs;
+    refs = "http://localhost:5001/api/v0/refs?arg=" + hash + "&recursive&format=" + encodeURIComponent('<src> <dst> <linkname>');
+    console.log(refs);
+    // ipfs = stat.app();
+    // fetch(refs).then(res => res.text()).then(text => console.log(text));
+    return d3.text(refs, (err, text) => {
+        console.log("1");
+        var data;
+        data = text.responseText;
+        // console.log(data);
     });
 };
