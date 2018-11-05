@@ -14,6 +14,7 @@ function dump(v) {
 // var f = require("./app.js");
 var peer = require("./peer.js");
 var stat = require("./bswstat.js");
+var d3_tree = require("./lib/d3/d3_tree.js");
 var latest_version = fs.readFileSync("latest-version", "utf-8");
 console.log(latest_version);
 latest_version = latest_version.replace(/\r?\n/g,"");
@@ -48,10 +49,62 @@ render = (hash) => {
     console.log(refs);
     // ipfs = stat.app();
     // fetch(refs).then(res => res.text()).then(text => console.log(text));
-    return d3.text(refs, (err, text) => {
-        console.log("1");
-        var data;
-        data = text.responseText;
-        // console.log(data);
-    });
+
+    (async _ => {
+        const res = await fetch(refs);
+        const text = await res.text();
+        console.log(text);
+        var data, tree, lines, line, datum, ref, src, dst, ref, children;
+        data = text;
+        tree = {};
+        lines = data.split("\n");
+        for(let i = 0, len = lines.length; i < len; i++) {
+            line = lines[i];
+            if(!line.trim()) {
+                continue;
+            }
+            datum = JSON.parse(line);
+            ref = datum.Ref.split(' '), src = ref[0], dst = ref[1], linkname = ref[2];
+            if(src && dst && linkname) {
+                if (tree[src] == null) {
+                    tree[src] = [];
+                }
+                tree[src].push({
+                    Hash: dst,
+                    Name: linkname
+                });
+            }
+            // console.log(linkname);
+        }
+        children = getDecendants(hash, tree);
+        d3_tree.root = {
+            children: child
+        };
+        d3_tree.root.x0 = h / 2;
+        d3_tree.root.y0 = 0;
+        d3_tree.root.children.forEach(toggleAll);
+        return d3_tree.update(d3_tree.root);
+    })();
+
+};
+
+getDecendants = (ref, dict) => {
+    var child, children, decendants, i, len;
+    if (!((ref != null) && (dict != null))) {
+        throw new Error;
+    }
+    children = dict[ref];
+    if (children != null) {
+        for (i = 0, len = children.length; i < len; i++) {
+            child = children[i];
+            if (child.Hash == null) {
+                throw new Error;
+            }
+            decendants = getDecendants(child.Hash, dict);
+            if (decendants != null) {
+                child.children = decendants;
+            }
+        }
+        return children;
+    }
 };

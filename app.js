@@ -155,27 +155,6 @@ app();
 //     });    
 // };
 
-// getDecendants = (ref, dict) => {
-//     var child, children, decendants, i, len;
-//     if (!((ref != null) && (dict != null))) {
-//         throw new Error;
-//     }
-//     children = dict[ref];
-//     if (children != null) {
-//         for (i = 0, len = children.length; i < len; i++) {
-//             child = children[i];
-//             if (child.Hash == null) {
-//                 throw new Error;
-//             }
-//             decendants = getDecendants(child.Hash, dict);
-//             if (decendants != null) {
-//                 child.children = decendants;
-//             }
-//         }
-//         return children;
-//     }
-// };
-
 // d = debug = function() {
 //     var args;
 //     args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
