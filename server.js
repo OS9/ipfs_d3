@@ -14,7 +14,7 @@ function dump(v) {
 // var f = require("./app.js");
 var peer = require("./peer.js");
 var stat = require("./bswstat.js");
-var d3_tree = require("./lib/d3/d3_tree.js");
+// var d3_tree = require("./lib/d3/d3_tree.js");
 var latest_version = fs.readFileSync("latest-version", "utf-8");
 console.log(latest_version);
 latest_version = latest_version.replace(/\r?\n/g,"");
@@ -32,7 +32,10 @@ app.get("/", (req, res) => {
     // stat.app();
     // f.app(req, res);
     // dump(global);
-    render(WATCH_HASH);
+    let test = render(WATCH_HASH);
+    
+    res.send("test");
+    console.log(test);
     // res.send('<a href="/test">test</a>');
 });
 
@@ -53,7 +56,7 @@ render = (hash) => {
     (async _ => {
         const res = await fetch(refs);
         const text = await res.text();
-        console.log(text);
+        // console.log(text);
         var data, tree, lines, line, datum, ref, src, dst, ref, children;
         data = text;
         tree = {};
@@ -74,37 +77,8 @@ render = (hash) => {
                     Name: linkname
                 });
             }
-            // console.log(linkname);
         }
-        children = getDecendants(hash, tree);
-        d3_tree.root = {
-            children: child
-        };
-        d3_tree.root.x0 = h / 2;
-        d3_tree.root.y0 = 0;
-        d3_tree.root.children.forEach(toggleAll);
-        return d3_tree.update(d3_tree.root);
+        console.log(tree);
     })();
 
-};
-
-getDecendants = (ref, dict) => {
-    var child, children, decendants, i, len;
-    if (!((ref != null) && (dict != null))) {
-        throw new Error;
-    }
-    children = dict[ref];
-    if (children != null) {
-        for (i = 0, len = children.length; i < len; i++) {
-            child = children[i];
-            if (child.Hash == null) {
-                throw new Error;
-            }
-            decendants = getDecendants(child.Hash, dict);
-            if (decendants != null) {
-                child.children = decendants;
-            }
-        }
-        return children;
-    }
 };
