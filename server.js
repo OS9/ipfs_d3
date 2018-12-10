@@ -34,8 +34,7 @@ app.get("/", (req, res) => {
     // dump(global);
     let test = render(WATCH_HASH);
     
-    res.send("test");
-    console.log(test);
+    res.send(test);
     // res.send('<a href="/test">test</a>');
 });
 
@@ -49,17 +48,19 @@ app.get("/test", (req, res) => {
 render = (hash) => {
     var refs, ipfs;
     refs = "http://localhost:5001/api/v0/refs?arg=" + hash + "&recursive&format=" + encodeURIComponent('<src> <dst> <linkname>');
-    console.log(refs);
-    // ipfs = stat.app();
+    // console.log(refs);
+    ipfs = peer.app();
     // fetch(refs).then(res => res.text()).then(text => console.log(text));
 
-    (async _ => {
+    var tree_data = (async _ => {
         const res = await fetch(refs);
         const text = await res.text();
         // console.log(text);
-        var data, tree, lines, line, datum, ref, src, dst, ref, children;
+        var data, lines, line, datum, ref, src, dst, ref, children;
         data = text;
-        tree = {};
+        // console.log(data);
+        data = ipfs;
+        const tree = {};
         lines = data.split("\n");
         for(let i = 0, len = lines.length; i < len; i++) {
             line = lines[i];
@@ -78,7 +79,7 @@ render = (hash) => {
                 });
             }
         }
-        console.log(tree);
     })();
-
+    // console.log(ipfs);
+    // return Promise.resolve(tree_data.tree);
 };

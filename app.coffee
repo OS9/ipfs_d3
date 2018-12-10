@@ -4,15 +4,6 @@ DEMO_HASH = 'QmX5smVTZfF8p1VC8Y3VtjGqjvDVPWvyBk24JgvnMwHtjC'  # archive of ipfs 
 DEBUG = true
 API_REFS_FORMAT = encodeURIComponent '<src> <dst> <linkname>'
 
-# ipfsAPI = require("ipfs-api")
-# ipfs = ipfsAPI "/ip4/127.0.0.1/tcp/5001"
-
-# ipfs.swarm.peers (error, peers) ->
-#   if error
-#     throw error
-  
-#   console.log peers 
-
 app = ->
   hash = window.location.hash[1..]
   if hash.length > 0
@@ -23,44 +14,11 @@ app = ->
 
 render = (hash) ->
   refs = "/api/v0/refs?arg=#{hash}&recursive&format=#{API_REFS_FORMAT}" #ipfs refs api
-  blockStat = "/api/v0/block/stat?arg=#{hash}"
-  get = "/api/v0/block/get?arg=#{hash}"
-  objdata = "/api/v0/object/data?arg=#{hash}"
-  objlinks = "/api/v0/object/links?arg=#{hash}"
-  objstat = "/api/v0/object/stat?arg=#{hash}"
-  dagget = "/api/v0/dag/get?arg=#{hash}"
-  test = "/api/v0/key"
-  console.log refs
-  d3.xhr test, (error, xhr) ->
-    console.log "test"
-    test = xhr.responseText
-    console.log test
-    console.log "------------------------"
-  # d3.xhr blockStat, (error, xhr) ->
-  #   stat = xhr.responseText
-  #   console.log stat
-  #   console.log "------------------------"
-  # d3.xhr get, (error, xhr) ->
-  #   getData = xhr.responseText
-  #   console.log getData
-  # d3.xhr objdata, (error, xhr) ->
-  #   objData = xhr.responseText
-  #   console.log objData
-  #   console.log "------------------------"
-  # d3.xhr objlinks, (error, xhr) ->
-  #   objLinks = xhr.responseText
-  #   console.log objLinks
-  #   console.log "------------------------"
-  # d3.xhr objstat, (error, xhr) ->
-  #   console.log "object stat"
-  #   objStat = xhr.responseText
-  #   console.log objStat
-  #   console.log "------------------------"
   d3.xhr refs, (error, xhr) ->
     data = xhr.responseText
     # console.log(data)
     tree = {}
-    lines = data.split "\n" #まとまったjsonを1つずつにする
+    lines = data.split "\n" #まとまったjsonを1単語つずつにする
     for line in lines
       continue unless line.trim()
       datum = JSON.parse line

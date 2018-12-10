@@ -6,7 +6,7 @@ exports.app = () => {
       if (err){
         throw err;
       }
-      console.log(peers);
+      // console.log(peers);
       return peers;
     });
 }
